@@ -8,7 +8,7 @@ sc = spark.sparkContext
 # Defining Schema
 retail_schema = StructType([
     StructField('Sales_rep',StringType(), True),
-    StructField('region',StringType(), True),
+    StructField('Region',StringType(), True),
     StructField('Month',StringType(), True),
     StructField('Sales',IntegerType(), True)
 
@@ -22,7 +22,7 @@ df = spark.read\
 
 df.show(10, False)
 
-validData = df.filter(psf.col("Region").isNotNull())
+validData = df.filter(psf.col("Region").isNotNull() |  psf.col("Month").isNotNull())
 invalidData= df.filter(psf.col("Region").isNull() | psf.col("Month").isNull())\
     .withColumn("Hold_reason", psf
                 .when(psf.col("Region").isNull(), "Region is missing")
